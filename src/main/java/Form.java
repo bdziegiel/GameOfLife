@@ -2,8 +2,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.TimerTask;
-import javax.swing.*;
 import java.util.Timer;
+import javax.swing.*;
 
 public class Form extends JPanel implements ActionListener {
 
@@ -18,10 +18,9 @@ public class Form extends JPanel implements ActionListener {
     private JSpinner X;
     private JSpinner Y;
 
-    private JFrame f;
+    private JFrame myFrame;
     private JPanel graphicPanel;
     private JButton[][] board;
-
 
     private int boardHeight;
     private int boardWidth;
@@ -30,14 +29,15 @@ public class Form extends JPanel implements ActionListener {
     private int[][]nextGen;
 
     private Graphic graphic = new Graphic();
+    private int timerCounter;
 
     void setAndShowGUI() {
-        f = new JFrame("Game of Life");
-        f.setLayout(new BorderLayout());
-        f.setSize(1100, 900);
+        myFrame = new JFrame("Game of Life");
+        myFrame.setLayout(new BorderLayout());
+        myFrame.setSize(1100, 900);
 
         JPanel buttonPanel = new JPanel();
-        buttonPanel.setPreferredSize(new Dimension(200, f.getHeight()));
+        buttonPanel.setPreferredSize(new Dimension(200, myFrame.getHeight()));
 
         //all the buttons
         ustawPlansze = new JButton("Ustaw planszę");
@@ -83,10 +83,10 @@ public class Form extends JPanel implements ActionListener {
 
         graphicPanel = new JPanel();
 
-        f.add(graphicPanel, BorderLayout.CENTER);
-        f.add(buttonPanel, BorderLayout.EAST);
-        f.setVisible(true);
-        f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        myFrame.add(graphicPanel, BorderLayout.CENTER);
+        myFrame.add(buttonPanel, BorderLayout.EAST);
+        myFrame.setVisible(true);
+        myFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         ustawPlansze.addActionListener(setSizeListener);
         resetButton.addActionListener(setSizeListener);
@@ -138,7 +138,7 @@ public class Form extends JPanel implements ActionListener {
                         }
                     }
 
-                    f.setVisible(true);
+                    myFrame.setVisible(true);
                 }
                 if (e.getSource() == resetButton) {
                     graphicPanel.removeAll();
@@ -158,18 +158,19 @@ public class Form extends JPanel implements ActionListener {
         if (source == oscylatorButton) area = graphic.setOscylator(getBoardWidth(), getBoardHeight()).clone();
         if (source == gliderButton) area = graphic.setGlider(getBoardWidth(),getBoardHeight()).clone();
         if (source == recznieButton) area = graphic.setRecznie(getBoardWidth(), getBoardHeight(), board).clone();
+        timerCounter =0;
 
         //timer handler
         final Timer myTimer = new Timer();
         TimerTask task = new TimerTask() {
-            int counter=1;
             @Override
             public void run() {
-                nextGen = (graphic.startTheGame(area)).clone();
+                nextGen = (graphic.setNextGen(area)).clone();
                 graphic.setBoard(nextGen, board);
                 area = nextGen.clone();
-                counter++;
-                if(counter==getIterations()) myTimer.cancel();
+                System.out.println(timerCounter);
+                timerCounter++;
+                if(timerCounter ==getIterations()) myTimer.cancel();
             }
         };
 

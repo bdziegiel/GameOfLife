@@ -89,21 +89,21 @@ class Graphic  {
         }
     }
 
-    int[][] startTheGame(int[][] area) {
+    int[][] setNextGen(int[][] area) {
         int cols = area.length;
         int rows = area[cols-1].length;
-        int[][] nextGen = area.clone();
+        int[][] nextGen = new int[cols][rows];
             for (int i = 0; i < cols; i++) {
                 for (int j = 0; j < rows; j++) {
                     int neighbours = countNeighbors(area, i,j);
                     if(area[i][j]==0){
                         if(neighbours == 3 ) nextGen[i][j]=1;
+                        else nextGen[i][j]=0;
                     }
                     else if(area[i][j]==1) {
                         if(neighbours==2 || neighbours ==3) nextGen[i][j]=1;
                         else nextGen[i][j]=0;
                     }
-
                 }
             } return nextGen;
         }
