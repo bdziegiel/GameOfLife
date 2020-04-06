@@ -59,7 +59,7 @@ public class Form extends JPanel implements ActionListener {
         SpinnerModel model = new SpinnerNumberModel(10, 10, 100, 1);
         iteracje = new JSpinner(model);
         iteracje.setPreferredSize(new Dimension(150, 30));
-        SpinnerModel model1 = new SpinnerNumberModel(20, 20, 100, 10);
+        SpinnerModel model1 = new SpinnerNumberModel(10, 10, 100, 10);
         //SpinnerModel model2 = new SpinnerNumberModel(20, 20, 100, 10);
         X = new JSpinner(model1);
         Y = new JSpinner(model1);
